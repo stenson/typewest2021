@@ -1,6 +1,6 @@
 Some DrawBot scripts
 
-To install the `drafting` package in DrawBot itself:
+To install the [drafting](https://github.com/goodhertz/drafting) package in DrawBot itself:
 
 - `Python` > `Install Python Packages...`
 - Change "Search" to "Install/Upgrade"
