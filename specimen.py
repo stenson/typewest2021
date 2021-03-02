@@ -49,7 +49,6 @@ class Wordomatish():
         cap_re = re.compile("^["+caps.lower()+"]{1}["+lows.lower()+"]+$")
         low_re = re.compile("^["+lows.lower()+"]+$")
         all_cap_re = re.compile("^["+caps.lower()+"]+$")
-        print(all_cap_re)
                    
         for word in self.all_words:
             if len(word) >= 2:
@@ -108,18 +107,23 @@ def add_page():
 # The Actual Typesetting (very tweakable)
 ####################################################
 
-wordomat = Wordomatish(characters, 0) # <- change the 0 here to get different random words
+wordomat = Wordomatish(caps, lowers, 0) # <- change the 0 here to get different random words
 
 # Page 1
 textarea = add_page()
 fontSize(140)
 lineHeight(120)
-textBox(characters, textarea)
+textBox(f"{caps}\n{lowers}", textarea)
 
 # Page 2
 textarea = add_page()
 columns = textarea.subdivide_with_leading(2, 30, "mnx")
 for idx, column in enumerate(columns):
+    data, column = column.divide(20, "mxy")
+    with savedState():
+        fontSize(10)
+        font(secondary_font)
+        textBox(f"18pt", data, align="center")
     fontSize(18)
     txt = wordomat.random_sentences(20, all_caps=idx==0)
     textBox(txt, column)
@@ -129,9 +133,18 @@ textarea = add_page()
 columns = textarea.subdivide_with_leading(3, 20, "mnx")
 font_size = 14
 for column in columns:
+    data, column = column.divide(20, "mxy")
+    with savedState():
+        fontSize(10)
+        font(secondary_font)
+        textBox(f"{font_size}pt", data, align="center")
     fontSize(font_size)
     txt = wordomat.random_sentences(30)
     textBox(txt, column, align="left")
     font_size -= 2
 
-saveImage("~/Desktop/specimen_test.pdf") # <- change this to whatever you want
+now = datetime.today().strftime('%Y-%m-%d_%H%M')
+filename = f"specimen_{font_name}_{now}.pdf"
+if True: # flip this to False is you actually want versioned PDFs with the date in the filename
+    filename = "speciment_test.pdf"
+saveImage(f"~/Desktop/{filename}") # <- change ~/Desktop to whatever you want
