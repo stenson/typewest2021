@@ -146,7 +146,7 @@ for column in columns:
     font_size -= 2
 
 now = datetime.today().strftime('%Y-%m-%d_%H%M')
-filename = f"specimen_{font_name}_{now}.pdf"
+filename = f"proof_{font_name}_{now}.pdf"
 if True: # flip this to False is you actually want versioned PDFs with the date in the filename
-    filename = "speciment_test.pdf"
+    filename = "proof_test.pdf"
 saveImage(f"~/Desktop/{filename}") # <- change ~/Desktop to whatever you want
