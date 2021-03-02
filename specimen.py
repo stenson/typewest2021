@@ -114,7 +114,7 @@ wordomat = Wordomatish(caps, lowers, 0) # <- change the 0 here to get different 
 # Page 1
 textarea = add_page()
 fontSize(140)
-lineHeight(120)
+lineHeight(140)
 textBox(f"{caps}\n{lowers}", textarea)
 
 # Page 2
