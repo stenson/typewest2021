@@ -13,27 +13,24 @@ wordomat_languages = [
 # Variables to tweak
 ####################################################
 otf_path = "~/Type/fonts/fonts/Zetkin-Light.otf"
-characters = """
-    DEHORV
-    agnopv
-"""
+caps = "DEHORV"
+lowers = "agnopv"
 designer_name = "Lorem J. Ipsum"
 secondary_font = "SourceSerifPro-It"
 language = "ukacd" # aka english
-language = "spanish"
+#language = "spanish"
 
 ####################################################
 # Generic Functions
 ####################################################
 
 font_name = installFont(str(Path(otf_path).expanduser()))
-characters = "\n".join([c.strip() for c in characters.strip().splitlines()])
 
 def capitalize(s):
     return s[0].upper() + s[1:].lower()
 
 class Wordomatish():
-    def __init__(self, characters, seed=0):
+    def __init__(self, caps, lows, seed=0):
         self.seed = seed
         self.rand = Random(self.seed)
         
@@ -46,29 +43,40 @@ class Wordomatish():
             .splitlines())
 
         self.caps = []
+        self.all_caps = []
         self.lowers = []
         
-        caps, lows = characters.split("\n")
         cap_re = re.compile("^["+caps.lower()+"]{1}["+lows.lower()+"]+$")
         low_re = re.compile("^["+lows.lower()+"]+$")
-                       
+        all_cap_re = re.compile("^["+caps.lower()+"]+$")
+        print(all_cap_re)
+                   
         for word in self.all_words:
-            if len(word) > 2:
+            if len(word) >= 2:
                 word = word.lower()
                 if cap_re.match(word):
                     self.caps.append(word)
                 elif low_re.match(word):
                     self.lowers.append(word)
+                elif all_cap_re.match(word):
+                    self.all_caps.append(word)
        
-    def random_sentence(self):
-        txt = capitalize(self.caps[self.rand.randint(0, len(self.caps)-1)])
-        for x in range(self.rand.randint(3, 20)):
-            txt += self.lowers[self.rand.randint(0, len(self.lowers)-1)] + " "
-        txt = txt[:-1] + "."
+    def random_sentence(self, all_caps = False):
+        if all_caps and len(self.all_caps) > 0:
+            txt = ""
+            for x in range(self.rand.randint(3, 20)):
+                txt += self.rand.choice(self.all_caps).upper() + " "
+            return txt
+        
+        txt = capitalize(self.rand.choice(self.caps))
+        for x in range(self.rand.randint(3, 20)): # random sentence length
+            txt += self.rand.choice(self.lowers) + " "
+        if False: # could check for existence of period
+            txt = txt[:-1] + "."
         return txt
 
-    def random_sentences(self, count):
-        return " ".join([self.random_sentence() for x in range(0, count)])
+    def random_sentences(self, count, all_caps=False):
+        return " ".join([self.random_sentence(all_caps) for x in range(0, count)])
 
 page_count = 0
 
@@ -111,9 +119,9 @@ textBox(characters, textarea)
 # Page 2
 textarea = add_page()
 columns = textarea.subdivide_with_leading(2, 30, "mnx")
-for column in columns:
+for idx, column in enumerate(columns):
     fontSize(18)
-    txt = wordomat.random_sentences(20)
+    txt = wordomat.random_sentences(20, all_caps=idx==0)
     textBox(txt, column)
 
 # Page 3
@@ -126,4 +134,4 @@ for column in columns:
     textBox(txt, column, align="left")
     font_size -= 2
 
-saveImage("~/specimen_test.pdf") # <- change this to whatever you want
+saveImage("~/Desktop/specimen_test.pdf") # <- change this to whatever you want
