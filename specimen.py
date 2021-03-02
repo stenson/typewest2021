@@ -14,7 +14,7 @@ wordomat_languages = [
 ####################################################
 # Variables to tweak
 ####################################################
-otf_path = "~/Type/fonts/fonts/Zetkin-Light.otf"
+otf_path = "~/Type/fonts/fonts/Zetkin-Light.otf" # <- change to the path to the otf version of your font that you want to proof
 caps = "DEHORV"
 lowers = "agnopv"
 designer_name = "Lorem J. Ipsum"
