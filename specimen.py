@@ -1,3 +1,5 @@
+# Requires the `drafting` package (instructions on how to install in DrawBot in the README.md in this repository)
+
 from drafting.geometry import Rect
 from datetime import datetime
 from pathlib import Path
