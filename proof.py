@@ -1,3 +1,12 @@
+import sys, os
+from pathlib import Path
+from subprocess import run
+sys.path.insert(0, str(Path("~/Goodhertz/drafting").expanduser()))
+
+#from drafting.text.reader import StyledString, Style, Font
+#ufo = Font("~/Type/typewest/clarendons/ufos/chars.ufo")
+#ttf_tmp = Path("test.ttf").write_bytes(ufo.font.shaper._fontData)
+
 # Requires the `drafting` package (instructions on how to install in DrawBot in the README.md in this repository)
 
 from drafting.geometry import Rect
@@ -14,9 +23,16 @@ wordomat_languages = [
 ####################################################
 # Variables to tweak
 ####################################################
+ufo = "~/Type/typewest/clarendons/ufos/chars.ufo"
+#run(["python", "-m", "fontmake", "-v"], capture_output=True)
+py = run(["which", "python3.9"], capture_output=True)
+print(py)
+
+
 otf_path = "~/Type/fonts/fonts/Zetkin-Light.otf" # <- change to the path to the otf version of your font that you want to proof
+otf_path = "~/Type/typewest/clarendons/compiled/FannStClarendon_Regular_2103051307.otf"
 caps = "DEHORV"
-lowers = "agnopv"
+lowers = "aegnopv"
 designer_name = "Lorem J. Ipsum"
 secondary_font = "SourceSerifPro-It"
 language = "ukacd" # aka english
